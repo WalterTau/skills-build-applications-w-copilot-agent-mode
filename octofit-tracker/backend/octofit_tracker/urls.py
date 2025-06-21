@@ -16,9 +16,32 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+from octofit_tracker import views
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'teams', views.TeamViewSet)
+router.register(r'activity', views.ActivityViewSet)
+router.register(r'leaderboard', views.LeaderboardViewSet)
+router.register(r'workouts', views.WorkoutViewSet)
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': '/api/users/',
+        'teams': '/api/teams/',
+        'activity': '/api/activity/',
+        'leaderboard': '/api/leaderboard/',
+        'workouts': '/api/workouts/',
+    })
 
 urlpatterns = [
+    path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/', include(router.urls)),
 ]
