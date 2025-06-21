@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "corsheaders",
     "rest_framework.authtoken",
+    "octofit_tracker",
 ]
 
 SITE_ID = 1
